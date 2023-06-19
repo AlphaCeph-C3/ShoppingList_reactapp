@@ -1,12 +1,10 @@
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import About from "./About";
-import Footer from "./Footer";
-import Header from "./Header";
 import Home from "./Home";
+import Layout from "./Layout";
 import Missing from "./Missing";
-import Nav from "./Nav";
 import NewPost from "./NewPost";
 import PostPage from "./PostPage";
 
@@ -41,7 +39,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [postTitle, setPostTitle] = useState("");
   const [postBody, setPostBody] = useState("");
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const filteredResults = posts.filter(
@@ -66,43 +64,44 @@ function App() {
     setPosts(allPosts);
     setPostTitle("");
     setPostBody("");
-    history.push("/");
+    navigate("/");
   };
 
   const handleDelete = (id) => {
     const postsList = posts.filter((post) => post.id !== id);
     setPosts(postsList);
-    history.push("/");
+    navigate("/");
   };
 
   return (
-    <div className="App">
-      <Header title="React JS Blog" />
-      <Nav search={search} setSearch={setSearch} />
-      <Switch>
-        <Route exact path="/">
-          <Home posts={searchResults} />
-        </Route>
-        <Route exact path="/post">
-          <NewPost
-            postTitle={postTitle}
-            postBody={postBody}
-            handleSubmit={handleSubmit}
-            setPostTitle={setPostTitle}
-            setPostBody={setPostBody}
+    <Routes>
+      <Route
+        path="/"
+        element={<Layout search={search} setSearch={setSearch} />}
+      >
+        <Route index element={<Home posts={searchResults} />} />
+        <Route path="post">
+          <Route
+            index
+            element={
+              <NewPost
+                postTitle={postTitle}
+                postBody={postBody}
+                handleSubmit={handleSubmit}
+                setPostTitle={setPostTitle}
+                setPostBody={setPostBody}
+              />
+            }
+          />
+          <Route
+            path=":id"
+            element={<PostPage posts={posts} handleDelete={handleDelete} />}
           />
         </Route>
-        <Route path="/post/:id">
-          <PostPage posts={posts} handleDelete={handleDelete} />
-        </Route>
-        <Route path="/about" component={About} />
-        <Route path="*" component={Missing} />
-        {/* <Route path="/layout">
-        <Layout />
-      </Route> */}
-      </Switch>
-      <Footer />
-    </div>
+        <Route path="about" element={<About />} />
+        <Route path="*" element={<Missing />} />
+      </Route>
+    </Routes>
   );
 }
 
