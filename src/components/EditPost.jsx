@@ -35,13 +35,11 @@ const EditPost = ({
             <label htmlFor="postBody">Post:</label>
             <textarea
               id="postBody"
-              cols="30"
-              rows="10"
               required
               value={editBody}
               onChange={(e) => setEditBody(e.target.value)}
             ></textarea>
-            <button type="submit" onClick={() => handleEdit(id)}>
+            <button type="submit" onClick={() => handleEdit(post.id)}>
               Submit
             </button>
           </form>

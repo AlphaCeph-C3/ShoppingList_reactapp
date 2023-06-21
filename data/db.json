@@ -20,15 +20,9 @@
     },
     {
       "id": 4,
-      "title": "Testing a 4th post",
-      "datetime": "August 02, 2021 11:46:27 AM",
-      "body": "Some more testing paragraphs!"
-    },
-    {
-      "id": 5,
       "title": "Test Post for tutorial",
-      "datetime": "June 20, 2023 4:59:23 PM",
-      "body": "Here is my test Post for the axios tutorial !"
+      "datetime": "June 21, 2023 3:49:52 PM",
+      "body": "Some paragraphs for the dave gray courses !!!!!!!!"
     }
   ]
 }
